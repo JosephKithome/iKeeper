@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">iKeeper</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="page_text_1">CODE</string>
+    <string name="page_text_2">EAT</string>
+    <string name="page_text_3">SLEEP</string>
+
+    <string name="become_member_text">Become a Member</string>
+    <string name="on_boarding_login_button_text">Proceed</string>
+    <string name="above_login_button_text">Already a club member?</string>
+    <string name="free_account">Get your free account</string>
+    <string name="terms_conditions"><![CDATA[I accept the Terms & Conditions]]></string>
+    <string name="welcome">Hello,Welcome back!</string>
+</resources>

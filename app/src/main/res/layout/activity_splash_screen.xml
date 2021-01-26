@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".SplashScreen"
     >
     <LinearLayout
@@ -24,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/free_account"
-            android:textColor="@color/white"
+            android:textColor="@color/white_50"
             android:textSize="@dimen/text_12"
             />
 
@@ -36,7 +35,7 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginStart="@dimen/default_margin"
             android:text="@string/become_member_text"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/black_900"
             android:textSize="@dimen/text_12"
             android:textStyle="bold"
             />
@@ -48,7 +47,6 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="@dimen/default_margin"
-        android:background="@drawable/divider_dotted"
         android:layerType="software"
         app:layout_constraintBottom_toTopOf="@id/layoutSignUp"
         />
@@ -60,7 +58,7 @@
         android:layout_marginBottom="@dimen/dp_32"
         android:letterSpacing="0.05"
         android:text="@string/terms_conditions"
-        android:textColor="@color/white"
+        android:textColor="@color/white_50"
         android:textSize="@dimen/text_10"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +79,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tvTermCondition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        style="@style/app_buttons_style"
+        style="@style/ShapeAppearance.MaterialComponents.SmallComponent"
         />
     <TextView
         android:id="@+id/textView5"
@@ -90,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/default_margin"
         android:text="@string/above_login_button_text"
-        android:textColor="@color/white"
+        android:textColor="@color/white_50"
         android:textSize="@dimen/text_12"
         app:layout_constraintBottom_toTopOf="@+id/proceed_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,6 +99,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_vertical_margin"
+        android:background="@color/black_900"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,9 +1,11 @@
 package com.sejjoh.ikeeper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -28,10 +30,37 @@ public class SplashScreen extends AppCompatActivity {
         viewPager.setInterval(AUTO_SCROLL_THRESHOLD_IN_MILLI);
         // enable recycling using true
         viewPager.setCycle(true);
-        TextView btnProceed =findViewById(R.id.proceed_btn);
-        btnProceed.setOnClickListener(view -> {
-            Intent next = new Intent(SplashScreen.this,MainActivity.class);
-            startActivity(next);
+
+        //add viewpager listener
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            @Override
+            public void onPageSelected(int position) {
+                //open listing when on last page
+                if (position == 2){
+                   new Thread() {
+                       @Override
+                       public void run() {
+                           super.run();
+                           try {
+                               sleep(AUTO_SCROLL_THRESHOLD_IN_MILLI);
+                           } catch (InterruptedException e) {
+                               e.printStackTrace();
+                           }
+                           openKeeperListing();
+                       }
+                   }.start();
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) { }
         });
+        TextView btnProceed =findViewById(R.id.proceed_btn);
+    }
+
+    public void openKeeperListing() {
+        Intent next = new Intent(SplashScreen.this,MainActivity.class);
+        startActivity(next);
     }
 }

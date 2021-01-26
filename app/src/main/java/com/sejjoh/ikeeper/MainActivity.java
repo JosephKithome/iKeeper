@@ -13,20 +13,19 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG ="MainActivity" ;
-    private iKeeperViewModel mIKeeperViewModel;
+    private KeeperViewModel mKeeperViewModel;
     public static final int ADD_NOTE = 1;
     public static final int EDIT_NOTE = 2;
 
@@ -35,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MaterialToolbar myToolbar = (MaterialToolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         FloatingActionButton floatingActionButton =findViewById(R.id.add);
         floatingActionButton.setOnClickListener(view -> {
@@ -46,19 +47,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        IkeeperAdapter adapter = new IkeeperAdapter();
+        KeeperAdapter adapter = new KeeperAdapter();
         Log.d(TAG, "onCreate: data");
         recyclerView.setAdapter(adapter);
 
-        mIKeeperViewModel = new ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory.getInstance
-                ((Application) this.getApplicationContext())).get(iKeeperViewModel.class);
+        mKeeperViewModel = new ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory.getInstance
+                ((Application) this.getApplicationContext())).get(KeeperViewModel.class);
 
-        mIKeeperViewModel.getAlliKeepers().observe(this, new Observer<List<iKeeperEntity>>() {
-            @Override
-            public void onChanged(List<iKeeperEntity> iKeeperEntities) {
-                Log.d(TAG, "onChanged: getting data...");
-                adapter.setIkeeper(iKeeperEntities);
-            }
+        mKeeperViewModel.getAlliKeepers().observe(this, iKeeperEntities -> {
+            Log.d(TAG, "onChanged: getting data...");
+            adapter.submitList(iKeeperEntities);
         });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
@@ -69,22 +67,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                mIKeeperViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
+                mKeeperViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(MainActivity.this, "Note deleted!", Toast.LENGTH_SHORT).show();
 
             }
         }).attachToRecyclerView(recyclerView);
 
-        adapter.setOnItemSelectedListener(new IkeeperAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(iKeeperEntity iKeeperEntity) {
-                Intent intent = new Intent(MainActivity.this,AddIKeeperActivity.class);
-                intent.putExtra(AddIKeeperActivity.EXTRA_TITLE,iKeeperEntity.getTitle());
-                intent.putExtra(AddIKeeperActivity.EXTRA_DESCRIPTION,iKeeperEntity.getDescription());
-                intent.putExtra(AddIKeeperActivity.EXTRA_PRIORITY,iKeeperEntity.getPriority());
-                intent.putExtra(AddIKeeperActivity.EXTRA_ID,iKeeperEntity.getId());
-                startActivityForResult(intent,EDIT_NOTE);
-            }
+        adapter.setOnItemSelectedListener(KeeperEntity -> {
+            Intent intent = new Intent(MainActivity.this,AddIKeeperActivity.class);
+            intent.putExtra(AddIKeeperActivity.EXTRA_TITLE, KeeperEntity.getTitle());
+            intent.putExtra(AddIKeeperActivity.EXTRA_DESCRIPTION, KeeperEntity.getDescription());
+            intent.putExtra(AddIKeeperActivity.EXTRA_PRIORITY, KeeperEntity.getPriority());
+            intent.putExtra(AddIKeeperActivity.EXTRA_ID, KeeperEntity.getId());
+            startActivityForResult(intent,EDIT_NOTE);
         });
 
 
@@ -98,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
             int priority = data.getIntExtra(AddIKeeperActivity.EXTRA_PRIORITY,1);
 
 
-            iKeeperEntity iKeeperEntity =new iKeeperEntity(title,description,priority);
-            mIKeeperViewModel.insert(iKeeperEntity);
+            KeeperEntity KeeperEntity =new KeeperEntity(title,description,priority);
+            mKeeperViewModel.insert(KeeperEntity);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 
         }else if (requestCode ==EDIT_NOTE && resultCode == RESULT_OK){
@@ -113,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddIKeeperActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddIKeeperActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddIKeeperActivity.EXTRA_PRIORITY,1);
-            iKeeperEntity keeperEntity = new iKeeperEntity(title,description,priority);
+            KeeperEntity keeperEntity = new KeeperEntity(title,description,priority);
             keeperEntity.setId(id);
-            mIKeeperViewModel.update(keeperEntity);
+            mKeeperViewModel.update(keeperEntity);
 
 
         }
@@ -135,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.delete:
-                mIKeeperViewModel.deleteAll();
+                mKeeperViewModel.deleteAll();
                 Toast.makeText(this, "All notes Deleted Successfully!", Toast.LENGTH_SHORT).show();
                 return  true;
             default:

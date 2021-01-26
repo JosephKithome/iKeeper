@@ -2,9 +2,9 @@
     <string name="app_name">iKeeper</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="page_text_1">CODE</string>
-    <string name="page_text_2">EAT</string>
-    <string name="page_text_3">SLEEP</string>
+    <string name="page_text_1">Take Notes</string>
+    <string name="page_text_2">Manage your Notes</string>
+    <string name="page_text_3">Receive Note Reminders</string>
 
     <string name="become_member_text">Become a Member</string>
     <string name="on_boarding_login_button_text">Proceed</string>

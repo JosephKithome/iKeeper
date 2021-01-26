@@ -9,25 +9,25 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.sejjoh.ikeeper.iKeeperEntity;
+import com.sejjoh.ikeeper.KeeperEntity;
 
 /**
  * created by joseph mulingwa kithome on
  * 18.01.2021
  */
 
-@Database(entities = {iKeeperEntity.class},version = 1,exportSchema = false)
+@Database(entities = {KeeperEntity.class},version = 1,exportSchema = false)
 
-public abstract class iKeeperDatabase extends RoomDatabase {
+public abstract class KeeperDatabase extends RoomDatabase {
 
-    private static  iKeeperDatabase instance;
-    public  abstract iKeeperDao mIKeeperDao();
+    private static KeeperDatabase instance;
+    public  abstract KeeperDao mIKeeperDao();
 
-    public  static synchronized  iKeeperDatabase getInstance(Context context){
+    public  static synchronized KeeperDatabase getInstance(Context context){
         if (instance == null){
 
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    iKeeperDatabase.class,"iKeeper_database")
+                    KeeperDatabase.class,"iKeeper_database")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomcallBack)
                     .build();
@@ -39,22 +39,22 @@ public abstract class iKeeperDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsyncTassk(instance).execute();
+            new PopulateDbAsyncTask(instance).execute();
 
         }
     };
-    private  static class PopulateDbAsyncTassk extends AsyncTask<Void,Void,Void>{
+    private  static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void>{
 
-        private iKeeperDao mIKeeperDao;
-        private PopulateDbAsyncTassk(iKeeperDatabase db){
+        private KeeperDao mIKeeperDao;
+        private PopulateDbAsyncTask(KeeperDatabase db){
             mIKeeperDao =db.mIKeeperDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            mIKeeperDao.insertIkeeper(new iKeeperEntity("Java","Room example",7));
-            mIKeeperDao.insertIkeeper(new iKeeperEntity("Room","Room Library",8));
-            mIKeeperDao.insertIkeeper(new iKeeperEntity("AsyncTask","AsyncTask Classes",3));
+            mIKeeperDao.insertKeeper(new KeeperEntity("Java","Room example",7));
+            mIKeeperDao.insertKeeper(new KeeperEntity("Room","Room Library",8));
+            mIKeeperDao.insertKeeper(new KeeperEntity("AsyncTask","AsyncTask Classes",3));
             
 
 

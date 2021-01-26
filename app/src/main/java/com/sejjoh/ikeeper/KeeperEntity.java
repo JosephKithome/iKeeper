@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
  * 18.01.2021
  */
 @Entity(tableName = "note_table")
-public class iKeeperEntity {
+public class KeeperEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -17,7 +17,7 @@ public class iKeeperEntity {
     private  String description;
     private  int  priority;
 
-    public iKeeperEntity(String title, String description, int priority) {
+    public KeeperEntity(String title, String description, int priority) {
         this.title = title;
         this.description = description;
         this.priority = priority;

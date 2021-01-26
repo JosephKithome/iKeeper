@@ -10,5 +10,5 @@
       android:right="@dimen/dp_32"
       android:top="0dp"
       />
-  <solid android:color="@color/teal_200"/>
+  <solid android:color="@color/white_50"/>
 </shape>

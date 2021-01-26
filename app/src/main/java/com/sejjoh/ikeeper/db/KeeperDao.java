@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.sejjoh.ikeeper.iKeeperEntity;
+import com.sejjoh.ikeeper.KeeperEntity;
 
 import java.util.List;
 
@@ -16,22 +16,22 @@ import java.util.List;
  * 18.01.2021
  */
 @Dao
-public interface iKeeperDao {
+public interface KeeperDao {
 
     @Insert
-    void  insertIkeeper(iKeeperEntity iKeeperEntity);
+    void insertKeeper(KeeperEntity KeeperEntity);
 
     @Update
-    void updateIkeeper(iKeeperEntity iKeeperEntity);
+    void updateKeeper(KeeperEntity KeeperEntity);
 
     @Delete
-    void deleteIkeeper(iKeeperEntity iKeeperEntity);
+    void deleteKeeper(KeeperEntity KeeperEntity);
 
     @Query("DELETE FROM note_table")
-    void  deleteAllIkeepers();
+    void deleteAllKeepers();
 
     @Query("SELECT * FROM note_table ORDER BY priority DESC")
-    LiveData<List<iKeeperEntity>> getAllikeepers();
+    LiveData<List<KeeperEntity>> getAllKeepers();
 
 
 }
